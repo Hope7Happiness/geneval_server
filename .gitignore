@@ -4,6 +4,8 @@ random_geneval/
 random_out.zip
 pretrained/
 
+workspace/
+server_logs/
 
 mmcv/
 mmdetection/

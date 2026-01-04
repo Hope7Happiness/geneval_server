@@ -10,8 +10,8 @@
 # python geneval/evaluation/summary_scores.py "./random_out/results.jsonl"
 
 
-python geneval/evaluation/evaluate_images.py \
-    ./sd1.5_out \
-    --outfile "./sd1.5_out/results.jsonl" \
-    --model-path ./pretrained
-python geneval/evaluation/summary_scores.py "./sd1.5_out/results.jsonl"
+# python geneval/evaluation/evaluate_images.py \
+#     ./sd1.5_out \
+#     --outfile "./sd1.5_out/results.jsonl" \
+#     --model-path ./pretrained
+python geneval/evaluation/summary_scores.py ./random_out/results.jsonl ./test.json
