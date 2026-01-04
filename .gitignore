@@ -1,0 +1,10 @@
+random_out/
+sd1.5_out/
+random_geneval/
+random_out.zip
+pretrained/
+
+
+mmcv/
+mmdetection/
+
