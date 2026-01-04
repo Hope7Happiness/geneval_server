@@ -76,7 +76,7 @@ def upload_info(obj):
         repo_type="dataset"
     )
 
-
+DANGEROUS_COUNT = 0
 while True:
     try:
         try:
@@ -86,10 +86,23 @@ while True:
             time.sleep(300)
             continue
 
-        if info["status"] != "untested":
+        if info["status"] == "running":
+            raise RuntimeError("This should not happen")
+        elif info["status"] in {"tested", "failed"}:
+            DANGEROUS_COUNT += 1
+            if DANGEROUS_COUNT >= 3:
+                logger.critical("Some client is not working properly! full info: " + str(info))
+                logger.critical("Gonna force remove the repo to unblock...")
+                api.delete_repo(repo_id=REPO_ID, repo_type="dataset")
+                DANGEROUS_COUNT = 0
+            else:
+                logger.warning("Found stale submission with full info: " + str(info) + f'for {DANGEROUS_COUNT} times. Waiting to see if it recovers...')
+                
             logger.debug("Nothing to do. Status is %s. Sleeping...", info["status"])
             time.sleep(300)
             continue
+        
+        DANGEROUS_COUNT = 0
 
         logger.info("Claiming new task...")
 

@@ -19,15 +19,21 @@ def submit_and_check(image_folder):
     shutil.make_archive("submission", 'zip', image_folder)
 
     # we wait until the repo get deleted, to avoid concurrent submission issues
+    cleared = False
     for _ in range(20):
         try:
             old_info = hf_hub_download(REPO_ID, "info.json", repo_type="dataset", force_download=True)
             old_info = json.load(open(old_info))
         except RepositoryNotFoundError:
+            cleared = True
             break
         print(f"⏳ waiting for previous submission {old_info} to be evaluated ...")
         time.sleep(30)
-        
+    
+    if not cleared:
+        print("✗ [FATAL] previous submission not cleared in time.")
+        return None
+
     print("✓ previous submission cleared")
 
     upload_file(
