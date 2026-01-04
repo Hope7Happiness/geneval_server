@@ -81,13 +81,13 @@ while True:
     try:
         try:
             info = download_info()
-        except RepositoryNotFoundError:
-            logger.warning("No submission found. Waiting...")
+        except (RepositoryNotFoundError, ValueError):
+            logger.info("info.json not found. This means no submissions yet. Sleeping for a while...")
             time.sleep(300)
             continue
 
         if info["status"] != "untested":
-            logger.debug("Nothing to do. Status is %s", info["status"])
+            logger.debug("Nothing to do. Status is %s. Sleeping...", info["status"])
             time.sleep(300)
             continue
 
