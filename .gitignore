@@ -10,3 +10,5 @@ server_logs/
 mmcv/
 mmdetection/
 
+hf_key
+
